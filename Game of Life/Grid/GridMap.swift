@@ -8,9 +8,13 @@
 
 import SceneKit
 
-public struct GridMap {
+public class GridMap {
     let tileDimension: SCNVector3
-    var occupieds: [String: SCNNode] = [:]
+    var occupieds: [String: MyNode] = [:]
+
+    init(tileDimension: SCNVector3) {
+        self.tileDimension = tileDimension
+    }
 
     func positionFor(coordinate: SCNVector3) -> SCNVector3 {
         return SCNVector3(tileDimension.x * coordinate.x, tileDimension.y * coordinate.y, tileDimension.z * coordinate.z)
@@ -20,24 +24,28 @@ public struct GridMap {
         return SCNVector3(position.x / tileDimension.x, position.y / tileDimension.y, position.z / tileDimension.z)
     }
 
-    mutating func register(_ object: SCNNode, coordinate: SCNVector3) {
+    func register(_ object: MyNode, coordinate: SCNVector3) {
+        object.gridMap = self
         occupieds[vecToString(coordinate)] = object
     }
 
-    mutating func remove(_ coordinate: SCNVector3) {
-        occupieds[vecToString(coordinate)] = nil
+    func remove(_ coordinate: SCNVector3) {
+        if let node = nodeFor(coordinate) {
+            self.remove(node)
+        }
     }
 
-    mutating func remove(_ object: SCNNode) {
+    func remove(_ object: MyNode) {
+        object.gridMap = nil
         let coordinate = coordinateFor(position: object.position)
-        remove(coordinate)
+        occupieds[vecToString(coordinate)] = nil
     }
 
     func checkOccupied(_ coordinate:SCNVector3) -> Bool {
         return occupieds[vecToString(coordinate)] != nil
     }
 
-    func nodeFor(_ coordinate: SCNVector3) -> SCNNode? {
+    func nodeFor(_ coordinate: SCNVector3) -> MyNode? {
         return occupieds[vecToString(coordinate)]
     }
 

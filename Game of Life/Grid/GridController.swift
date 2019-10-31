@@ -19,7 +19,7 @@ public class GridController {
         gridMap = GridMap(tileDimension: tileDimension)
     }
 
-    public func addAt(_ object: SCNNode, coordinate: SCNVector3) {
+    public func addAt(_ object: MyNode, coordinate: SCNVector3) {
         if !gridMap.checkOccupied(coordinate) {
             object.position = gridMap.positionFor(coordinate: coordinate)
             gridMap.register(object, coordinate: coordinate)
@@ -34,7 +34,7 @@ public class GridController {
         }
     }
 
-    public func remove(_ object: SCNNode) {
+    public func remove(_ object: MyNode) {
         object.removeFromParentNode()
         gridMap.remove(object)
     }

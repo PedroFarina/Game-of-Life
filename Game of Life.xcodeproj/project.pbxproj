@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		022DCC89236B6C02008DE597 /* GridMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022DCC88236B6C02008DE597 /* GridMap.swift */; };
 		022DCC8E236B7889008DE597 /* GridController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022DCC8D236B7889008DE597 /* GridController.swift */; };
+		022DCC90236B813E008DE597 /* MyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022DCC8F236B813E008DE597 /* MyNode.swift */; };
 		02B87D6A236B51090041F2C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B87D69236B51090041F2C5 /* AppDelegate.swift */; };
 		02B87D6C236B51090041F2C5 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 02B87D6B236B51090041F2C5 /* art.scnassets */; };
 		02B87D6E236B51090041F2C5 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B87D6D236B51090041F2C5 /* GameViewController.swift */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		022DCC88236B6C02008DE597 /* GridMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridMap.swift; sourceTree = "<group>"; };
 		022DCC8D236B7889008DE597 /* GridController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridController.swift; sourceTree = "<group>"; };
+		022DCC8F236B813E008DE597 /* MyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNode.swift; sourceTree = "<group>"; };
 		02B87D66236B51090041F2C5 /* Game of Life.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Game of Life.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02B87D69236B51090041F2C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		02B87D6B236B51090041F2C5 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 		02B87D68236B51090041F2C5 /* Game of Life */ = {
 			isa = PBXGroup;
 			children = (
+				022DCC8F236B813E008DE597 /* MyNode.swift */,
 				022DCC8C236B77F8008DE597 /* Grid */,
 				02B87D69236B51090041F2C5 /* AppDelegate.swift */,
 				02B87D6B236B51090041F2C5 /* art.scnassets */,
@@ -154,6 +157,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				022DCC89236B6C02008DE597 /* GridMap.swift in Sources */,
+				022DCC90236B813E008DE597 /* MyNode.swift in Sources */,
 				022DCC8E236B7889008DE597 /* GridController.swift in Sources */,
 				02B87D6E236B51090041F2C5 /* GameViewController.swift in Sources */,
 				02B87D6A236B51090041F2C5 /* AppDelegate.swift in Sources */,

@@ -13,6 +13,9 @@
 		02B87D71236B51090041F2C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02B87D6F236B51090041F2C5 /* Main.storyboard */; };
 		02B87D73236B510C0041F2C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02B87D72236B510C0041F2C5 /* Assets.xcassets */; };
 		02B87D76236B510C0041F2C5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02B87D74236B510C0041F2C5 /* LaunchScreen.storyboard */; };
+		02B87D7E236B53040041F2C5 /* PFNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B87D7D236B53040041F2C5 /* PFNode.swift */; };
+		02B87D80236B53320041F2C5 /* PFEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B87D7F236B53320041F2C5 /* PFEntity.swift */; };
+		02B87D82236B53480041F2C5 /* PFComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B87D81236B53480041F2C5 /* PFComponent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		02B87D72236B510C0041F2C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		02B87D75236B510C0041F2C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		02B87D77236B510C0041F2C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		02B87D7D236B53040041F2C5 /* PFNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFNode.swift; sourceTree = "<group>"; };
+		02B87D7F236B53320041F2C5 /* PFEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFEntity.swift; sourceTree = "<group>"; };
+		02B87D81236B53480041F2C5 /* PFComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PFComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,7 @@
 		02B87D68236B51090041F2C5 /* Game of Life */ = {
 			isa = PBXGroup;
 			children = (
+				02B87D83236B55800041F2C5 /* EntityComponent FrameWork */,
 				02B87D69236B51090041F2C5 /* AppDelegate.swift */,
 				02B87D6B236B51090041F2C5 /* art.scnassets */,
 				02B87D6D236B51090041F2C5 /* GameViewController.swift */,
@@ -65,6 +72,16 @@
 				02B87D77236B510C0041F2C5 /* Info.plist */,
 			);
 			path = "Game of Life";
+			sourceTree = "<group>";
+		};
+		02B87D83236B55800041F2C5 /* EntityComponent FrameWork */ = {
+			isa = PBXGroup;
+			children = (
+				02B87D7F236B53320041F2C5 /* PFEntity.swift */,
+				02B87D81236B53480041F2C5 /* PFComponent.swift */,
+				02B87D7D236B53040041F2C5 /* PFNode.swift */,
+			);
+			path = "EntityComponent FrameWork";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,6 +156,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02B87D80236B53320041F2C5 /* PFEntity.swift in Sources */,
+				02B87D7E236B53040041F2C5 /* PFNode.swift in Sources */,
+				02B87D82236B53480041F2C5 /* PFComponent.swift in Sources */,
 				02B87D6E236B51090041F2C5 /* GameViewController.swift in Sources */,
 				02B87D6A236B51090041F2C5 /* AppDelegate.swift in Sources */,
 			);

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		022DCC83236B585A008DE597 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022DCC82236B585A008DE597 /* GameScene.swift */; };
 		02B87D6A236B51090041F2C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B87D69236B51090041F2C5 /* AppDelegate.swift */; };
 		02B87D6C236B51090041F2C5 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 02B87D6B236B51090041F2C5 /* art.scnassets */; };
 		02B87D6E236B51090041F2C5 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B87D6D236B51090041F2C5 /* GameViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		022DCC82236B585A008DE597 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		02B87D66236B51090041F2C5 /* Game of Life.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Game of Life.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02B87D69236B51090041F2C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		02B87D6B236B51090041F2C5 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				02B87D69236B51090041F2C5 /* AppDelegate.swift */,
 				02B87D6B236B51090041F2C5 /* art.scnassets */,
 				02B87D6D236B51090041F2C5 /* GameViewController.swift */,
+				022DCC82236B585A008DE597 /* GameScene.swift */,
 				02B87D6F236B51090041F2C5 /* Main.storyboard */,
 				02B87D72236B510C0041F2C5 /* Assets.xcassets */,
 				02B87D74236B510C0041F2C5 /* LaunchScreen.storyboard */,
@@ -156,6 +159,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				022DCC83236B585A008DE597 /* GameScene.swift in Sources */,
 				02B87D80236B53320041F2C5 /* PFEntity.swift in Sources */,
 				02B87D7E236B53040041F2C5 /* PFNode.swift in Sources */,
 				02B87D82236B53480041F2C5 /* PFComponent.swift in Sources */,

@@ -7,7 +7,7 @@
 //
 
 public class LifeNode: MyNode {
-    var rules:[([MyNode]) -> Bool] = []
+    var rules:[([MyNode]) -> Bool] = [ Rules.overPopulationRule, Rules.solitudeRule, Rules.socialRule ]
 
     func checkRules() -> Bool {
         var conformingRules: Bool = true

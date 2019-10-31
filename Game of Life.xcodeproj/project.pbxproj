@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		021DE192236B8A8400BCB8CA /* LifeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE191236B8A8400BCB8CA /* LifeNode.swift */; };
+		021DE196236B8BB800BCB8CA /* Rules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DE195236B8BB800BCB8CA /* Rules.swift */; };
 		022DCC89236B6C02008DE597 /* GridMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022DCC88236B6C02008DE597 /* GridMap.swift */; };
 		022DCC8E236B7889008DE597 /* GridController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022DCC8D236B7889008DE597 /* GridController.swift */; };
 		022DCC90236B813E008DE597 /* MyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022DCC8F236B813E008DE597 /* MyNode.swift */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		021DE191236B8A8400BCB8CA /* LifeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeNode.swift; sourceTree = "<group>"; };
+		021DE195236B8BB800BCB8CA /* Rules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rules.swift; sourceTree = "<group>"; };
 		022DCC88236B6C02008DE597 /* GridMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridMap.swift; sourceTree = "<group>"; };
 		022DCC8D236B7889008DE597 /* GridController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridController.swift; sourceTree = "<group>"; };
 		022DCC8F236B813E008DE597 /* MyNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNode.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 		02B87D68236B51090041F2C5 /* Game of Life */ = {
 			isa = PBXGroup;
 			children = (
+				021DE195236B8BB800BCB8CA /* Rules.swift */,
 				021DE191236B8A8400BCB8CA /* LifeNode.swift */,
 				022DCC8C236B77F8008DE597 /* Grid */,
 				02B87D69236B51090041F2C5 /* AppDelegate.swift */,
@@ -164,6 +167,7 @@
 				022DCC8E236B7889008DE597 /* GridController.swift in Sources */,
 				021DE192236B8A8400BCB8CA /* LifeNode.swift in Sources */,
 				02B87D6E236B51090041F2C5 /* GameViewController.swift in Sources */,
+				021DE196236B8BB800BCB8CA /* Rules.swift in Sources */,
 				02B87D6A236B51090041F2C5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

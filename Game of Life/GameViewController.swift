@@ -12,11 +12,27 @@ import SceneKit
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate {
 
+    private var scene: SCNScene = {
+        guard let scene = SCNScene(named: "art.scnassets/GameScene.scn") else {
+            fatalError("Não foi possível inicializar a cena")
+        }
+        return scene
+    }()
+    private lazy var sceneView: SCNView = {
+        guard let view = self.view as? SCNView else {
+            fatalError("Não foi possível inicializar a view")
+        }
+        view.delegate = self
+        view.scene = scene
+        view.allowsCameraControl = true
+        view.showsStatistics = true
+        return view
+    }()
+
+    private lazy var gridController: GridController = GridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(10, 10, 10))
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // create a new scene
-        let scene = SCNScene(named: "art.scnassets/GameScene.scn")!
 
         // create and add a camera to the scene
         let cameraNode = SCNNode()
@@ -26,25 +42,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         // place the camera
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
         
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
-        scnView.delegate = self
-        
-        // set the scene to the view
-        scnView.scene = scene
-        
-        // allows the user to manipulate the camera
-        scnView.allowsCameraControl = true
-        
-        // show statistics such as fps and timing information
-        scnView.showsStatistics = true
-        
-        // configure the view
-        scnView.backgroundColor = UIColor.black
-        
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        scnView.addGestureRecognizer(tapGesture)
+        sceneView.addGestureRecognizer(tapGesture)
     }
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
@@ -53,38 +53,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
     @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
-        
-        // check what nodes are tapped
-        let p = gestureRecognize.location(in: scnView)
-        let hitResults = scnView.hitTest(p, options: [:])
-        // check that we clicked on at least one object
-        if hitResults.count > 0 {
-            // retrieved the first clicked object
-            let result = hitResults[0]
-            
-            // get its material
-            let material = result.node.geometry!.firstMaterial!
-            
-            // highlight it
-            SCNTransaction.begin()
-            SCNTransaction.animationDuration = 0.5
-            
-            // on completion - unhighlight
-            SCNTransaction.completionBlock = {
-                SCNTransaction.begin()
-                SCNTransaction.animationDuration = 0.5
-                
-                material.emission.contents = UIColor.black
-                
-                SCNTransaction.commit()
-            }
-            
-            material.emission.contents = UIColor.red
-            
-            SCNTransaction.commit()
-        }
     }
     
     override var shouldAutorotate: Bool {

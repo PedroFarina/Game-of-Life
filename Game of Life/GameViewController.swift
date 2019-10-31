@@ -28,8 +28,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         view.showsStatistics = true
         return view
     }()
-
-    private lazy var gridController: GridController = GridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(10, 10, 10))
+    
+    private lazy var gridController: GridController = GridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(5, 5, 5))
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +38,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         scene.rootNode.addChildNode(cameraNode)
-        
+
         // place the camera
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
         
@@ -53,6 +53,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
     @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
+        
     }
     
     override var shouldAutorotate: Bool {

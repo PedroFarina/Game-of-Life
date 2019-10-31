@@ -30,7 +30,7 @@ public struct GridMap {
 
     mutating func remove(_ object: SCNNode) {
         let coordinate = coordinateFor(position: object.position)
-        remove(coordinate: coordinate)
+        remove(coordinate)
     }
 
     func checkOccupied(_ coordinate:SCNVector3) -> Bool {

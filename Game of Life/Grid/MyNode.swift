@@ -11,15 +11,16 @@ import SceneKit
 public class MyNode: SCNNode {
     public weak var gridMap: GridMap?
 
-    func getNeighbors() -> [MyNode] {
-        return getNeighborsIn(SCNVector3(1, 1, 1))
+    public func getInfo() -> ([MyNode], [SCNVector3]) {
+        return getInfoIn(SCNVector3(1, 1, 1))
     }
 
-    func getNeighborsIn(_ range: SCNVector3) -> [MyNode] {
+    public func getInfoIn(_ range: SCNVector3) -> ([MyNode], [SCNVector3]) {
         guard let myCoordinate = self.gridMap?.coordinateFor(position: position) else {
-            return []
+            return ([], [])
         }
-        var nodes:[MyNode] = []
+        var nodes: [MyNode] = []
+        var vectors: [SCNVector3] = []
 
         for xDim in Int(myCoordinate.x - range.x) ... Int(myCoordinate.x + range.x) {
             for yDim in Int(myCoordinate.y - range.y) ... Int(myCoordinate.y + range.y) {
@@ -27,11 +28,29 @@ public class MyNode: SCNNode {
                     let checkIndex = SCNVector3(xDim, yDim, zDim)
                     if let neighborNode = gridMap?.nodeFor(checkIndex) {
                         nodes.append(neighborNode)
+                    } else {
+                        vectors.append(checkIndex)
                     }
                 }
             }
         }
 
-        return nodes
+        return (nodes, vectors)
+    }
+
+    func getNeighbors() -> [MyNode] {
+        return getNeighborsIn(SCNVector3(1, 1, 1))
+    }
+
+    func getNeighborsIn(_ range: SCNVector3) -> [MyNode] {
+        return getInfoIn(range).0
+    }
+
+    func getBlank() -> [SCNVector3] {
+        return getBlankIn(SCNVector3(1, 1, 1))
+    }
+
+    func getBlankIn(_ range: SCNVector3) -> [SCNVector3] {
+        return getInfoIn(range).1
     }
 }

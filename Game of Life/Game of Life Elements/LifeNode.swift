@@ -49,7 +49,7 @@ public class LifeNode: MyNode, GridListener {
         var newSpawns: Set<SCNVector3> = []
         for blank in info.1 {
             if !newSpawns.contains(blank) &&
-                gridMap?.nodesFor(blank.pointsAround()).count ?? 0 >= 3 {
+                gridMap?.nodesFor(blank.pointsAround()).count ?? 0 == 3 {
                 newSpawns.insert(blank)
             }
         }

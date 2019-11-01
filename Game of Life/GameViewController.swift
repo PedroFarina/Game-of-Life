@@ -29,7 +29,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         return view
     }()
     
-    private lazy var gridController: LifeGridController = LifeGridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(2, 1, 2))
+    private lazy var gridController: LifeGridController = LifeGridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(1, 1, 1))
 
     var cameraNode: SCNNode = {
         let cameraNode = SCNNode()
@@ -43,11 +43,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
 
         // create and add a camera to the scene
         scene.rootNode.addChildNode(cameraNode)
-        for i in 0...50 {
-            let life = LifeNodePool.getLife()
-            life.setColor(.white)
-            gridController.addAt(life, coordinate: SCNVector3(-i, 0, 0))
-        }
+        makeGlider()
 
         // place the camera
         cameraNode.position = SCNVector3(x: -2, y: 15, z: 20)
@@ -60,6 +56,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
 
     func makeNewGeneration() {
         gridController.nextGeneration()
+    }
+
+    func makeGlider() {
+        for i in 0...2 {
+            let life = LifeNodePool.getLife()
+            gridController.addAt(life, coordinate: SCNVector3(0, 0, -i))
+        }
+        gridController.addAt(LifeNodePool.getLife(), position: SCNVector3(1,0,0))
+        gridController.addAt(LifeNodePool.getLife(), position: SCNVector3(2,0,-1))
     }
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {

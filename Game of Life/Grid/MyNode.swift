@@ -9,12 +9,8 @@
 import SceneKit
 
 public class MyNode: SCNNode {
-    private static let defaultVec = SCNVector3(1, 0, 1)
+    private static let defaultSearch = SCNVector3(1, 0, 1)
     public weak var gridMap: GridMap?
-
-    public func getInfo() -> ([MyNode], [SCNVector3]) {
-        return getInfoIn(MyNode.defaultVec)
-    }
 
     public func getInfoIn(_ range: SCNVector3) -> ([MyNode], [SCNVector3]) {
         guard let gridMap = gridMap else {
@@ -41,8 +37,12 @@ public class MyNode: SCNNode {
         return (nodes, vectors)
     }
 
+    public func getInfo() -> ([MyNode], [SCNVector3]) {
+        return getInfoIn(MyNode.defaultSearch)
+    }
+
     func getNeighbors() -> [MyNode] {
-        return getNeighborsIn(MyNode.defaultVec)
+        return getNeighborsIn(MyNode.defaultSearch)
     }
 
     func getNeighborsIn(_ range: SCNVector3) -> [MyNode] {
@@ -50,7 +50,7 @@ public class MyNode: SCNNode {
     }
 
     func getBlank() -> [SCNVector3] {
-        return getBlankIn(MyNode.defaultVec)
+        return getBlankIn(MyNode.defaultSearch)
     }
 
     func getBlankIn(_ range: SCNVector3) -> [SCNVector3] {

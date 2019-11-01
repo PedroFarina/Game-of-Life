@@ -17,7 +17,7 @@ public class GridMap {
     }
 
     func positionFor(coordinate: SCNVector3) -> SCNVector3 {
-        return SCNVector3(tileDimension.x * coordinate.x, tileDimension.y * coordinate.y, tileDimension.z * coordinate.z)
+        return SCNVector3(floor(tileDimension.x * coordinate.x), floor(tileDimension.y * coordinate.y), floor(tileDimension.z * coordinate.z))
     }
 
     func coordinateFor(position: SCNVector3) -> SCNVector3 {
@@ -54,6 +54,16 @@ public class GridMap {
         for coordinate in coordinates {
             if let node = nodeFor(coordinate) {
                 nodes.append(node)
+            }
+        }
+        return nodes
+    }
+
+    func nodesFor(_ coordinates: Set<SCNVector3>) -> Set<MyNode> {
+        var nodes: Set<MyNode> = []
+        for coordinate in coordinates {
+            if let node = nodeFor(coordinate) {
+                nodes.insert(node)
             }
         }
         return nodes

@@ -8,22 +8,24 @@
 
 import SceneKit
 
-extension SCNVector3: Equatable {
-    func pointsAround() -> [SCNVector3] {
-        var points: [SCNVector3] = []
+extension SCNVector3 {
+    func pointsAround() -> Set<SCNVector3> {
+        var points: Set<SCNVector3> = []
         for x in Int(self.x - 1) ... Int(self.x + 1) {
             for y in Int(self.y - 1) ... Int(self.y + 1) {
                 for z in Int(self.z - 1) ... Int(self.z + 1) {
                     let point = SCNVector3(x, y, z)
                     if point != self {
-                        points.append(SCNVector3(x, y, z))
+                        points.insert(SCNVector3(x, y, z))
                     }
                 }
             }
         }
         return points
     }
+}
 
+extension SCNVector3: Equatable {
     public static func ==(lhs: SCNVector3, rsh: SCNVector3) -> Bool {
         return (lhs.x == rsh.x) && (lhs.y == rsh.y) && (lhs.z == rsh.z)
     }

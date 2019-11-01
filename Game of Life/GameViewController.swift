@@ -29,7 +29,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         return view
     }()
     
-    private lazy var gridController: GridController = GridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(2, 1, 2))
+    private lazy var gridController: LifeGridController = LifeGridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(2, 1, 2))
 
     var cameraNode: SCNNode = {
         let cameraNode = SCNNode()
@@ -43,11 +43,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
 
         // create and add a camera to the scene
         scene.rootNode.addChildNode(cameraNode)
-        var lifes: [LifeNode] = []
         for i in 0...2 {
             let life = LifeNode()
-            lifes.append(life)
-            life.geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
             gridController.addAt(life, coordinate: SCNVector3(-i, 0, 0))
         }
 
@@ -61,40 +58,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     }
 
     func makeNewGeneration() {
-        guard let lifeNodes = gridController.nodes as? Set<LifeNode> else {
-            fatalError("Não eram life nodes")
-        }
-        var dieNodes: [LifeNode] = []
-        var newSpawns: [SCNVector3] = []
-        for node in lifeNodes {
-            let answer = node.nextGeneration()
-            if !answer.0 {
-                dieNodes.append(node)
-            }
-            newSpawns.append(contentsOf: answer.1)
-        }
-
-        for node in lifeNodes {
-            if !dieNodes.contains(node) {
-                let life = LifeNode()
-                life.geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
-                var newCoordinate = gridController.gridMap.coordinateFor(position: node.position)
-                newCoordinate.y -= 1
-                gridController.addAt(life, coordinate: newCoordinate)
-            }
-            gridController.untrack(node)
-        }
-//        for node in dieNodes {
-//            gridController.remove(node)
-//        }
-        for place in newSpawns {
-            let life = LifeNode()
-            life.geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
-            var newPlace = place
-            newPlace.y -= 1
-            gridController.addAt(life, coordinate: newPlace)
-        }
-        cameraNode.runAction(SCNAction.move(by: SCNVector3(0, -1, 0), duration: 0))
+        gridController.nextGeneration()
     }
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {

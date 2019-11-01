@@ -12,7 +12,7 @@ public class GridController {
     private let scene: SCNScene
     private let sceneView: SCNView
     public private(set) var gridMap: GridMap
-    public private(set) var nodes: Set<MyNode> = []
+    public private(set) var nodes: [MyNode] = []
 
     init(scene: SCNScene, sceneView: SCNView, tileDimension: SCNVector3) {
         self.scene = scene
@@ -23,7 +23,7 @@ public class GridController {
     public func addAt(_ object: MyNode, coordinate: SCNVector3) {
         if !gridMap.checkOccupied(coordinate) {
             object.position = gridMap.positionFor(coordinate: coordinate)
-            nodes.insert(object)
+            nodes.append(object)
             gridMap.register(object, coordinate: coordinate)
             scene.rootNode.addChildNode(object)
             object.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 2, duration: 1)))
@@ -37,20 +37,26 @@ public class GridController {
 
     public func removeAt(_ coordinate: SCNVector3) {
         if let object = gridMap.nodeFor(coordinate) {
-            nodes.remove(object)
+            if let index = nodes.firstIndex(of: object) {
+                nodes.remove(at: index)
+            }
             object.removeFromParentNode()
             gridMap.remove(coordinate)
         }
     }
 
     public func remove(_ object: MyNode) {
-        nodes.remove(object)
+        if let index = nodes.firstIndex(of: object) {
+            nodes.remove(at: index)
+        }
         object.removeFromParentNode()
         gridMap.remove(object)
     }
 
     public func untrack(_ object: MyNode) {
-        nodes.remove(object)
+        if let index = nodes.firstIndex(of: object) {
+            nodes.remove(at: index)
+        }
         gridMap.remove(object)
     }
 }

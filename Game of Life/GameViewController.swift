@@ -24,7 +24,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         }
         view.delegate = self
         view.scene = scene
-        view.allowsCameraControl = false
+        view.allowsCameraControl = true
         view.showsStatistics = true
         return view
     }()
@@ -43,7 +43,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
 
         // create and add a camera to the scene
         scene.rootNode.addChildNode(cameraNode)
-        for i in 0...2 {
+        for i in 0...8000 {
             let life = LifeNode()
             gridController.addAt(life, coordinate: SCNVector3(-i, 0, 0))
         }

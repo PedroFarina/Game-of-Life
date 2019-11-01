@@ -20,14 +20,17 @@ public class LifeGridController: GridController {
     }
 
     func nextGeneration() {
-        guard let lifeNodes = nodes as? Set<LifeNode> else {
+        guard let lifeNodes = nodes as? [LifeNode] else {
             fatalError("Não eram life nodes")
         }
 
         var newCoordinates: Set<SCNVector3> = []
-        for node in lifeNodes {
-            newCoordinates = newCoordinates.union(node.getNextGenerationSpots(controller: self))
-        }
+        let lockQueue = DispatchQueue.init(label: "Generation")
+        DispatchQueue.concurrentPerform(iterations: nodes.count, execute: { index in
+            lockQueue.sync {
+                newCoordinates = newCoordinates.union(lifeNodes[index].getNextGenerationSpots(controller: self))
+            }
+        })
 
         for coordinate in newCoordinates {
             addAt(LifeNode(), coordinate: coordinate)

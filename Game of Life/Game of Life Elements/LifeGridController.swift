@@ -32,12 +32,13 @@ public class LifeGridController: GridController {
             }
         })
 
-        for coordinate in newCoordinates {
-            addAt(LifeNode(), coordinate: coordinate)
-        }
-
         for list in listeners {
             list.execute(forGrid: self)
+        }
+
+        for coordinate in newCoordinates {
+            let node = LifeNodePool.getLife()
+            addAt(node, coordinate: coordinate)
         }
 
         listeners = []

@@ -27,6 +27,10 @@ public class LifeNode: MyNode, GridListener {
     required convenience init?(coder: NSCoder) {
         self.init()
     }
+
+    public func setColor(_ color: UIColor) {
+        geometry?.firstMaterial?.diffuse.contents = color
+    }
     
     var rules:[([MyNode]) -> Bool] = [ Rules.overPopulationRule, Rules.solitudeRule ]
     var willLive: Bool = true

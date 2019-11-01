@@ -43,14 +43,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
 
         // create and add a camera to the scene
         scene.rootNode.addChildNode(cameraNode)
-        for i in 0...8000 {
-            let life = LifeNode()
+        for i in 0...50 {
+            let life = LifeNodePool.getLife()
+            life.setColor(.white)
             gridController.addAt(life, coordinate: SCNVector3(-i, 0, 0))
         }
 
         // place the camera
-        cameraNode.position = SCNVector3(x: -2, y: 9, z: 20)
-        cameraNode.eulerAngles = SCNVector3(-0.5, 0, 0)
+        cameraNode.position = SCNVector3(x: -2, y: 10, z: 20)
+        cameraNode.eulerAngles = SCNVector3(-1, 0, 0)
         
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))

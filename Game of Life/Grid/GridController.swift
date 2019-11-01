@@ -42,6 +42,7 @@ public class GridController {
             }
             object.removeFromParentNode()
             gridMap.remove(coordinate)
+            LifeNodePool.release(object)
         }
     }
 
@@ -51,6 +52,7 @@ public class GridController {
         }
         object.removeFromParentNode()
         gridMap.remove(object)
+        LifeNodePool.release(object)
     }
 
     public func untrack(_ object: MyNode) {

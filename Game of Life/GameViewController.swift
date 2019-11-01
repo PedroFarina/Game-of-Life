@@ -24,19 +24,24 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         }
         view.delegate = self
         view.scene = scene
-        view.allowsCameraControl = true
+        view.allowsCameraControl = false
         view.showsStatistics = true
         return view
     }()
     
-    private lazy var gridController: GridController = GridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(2, 2, 2))
+    private lazy var gridController: GridController = GridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(2, 1, 2))
+
+    var cameraNode: SCNNode = {
+        let cameraNode = SCNNode()
+        cameraNode.camera = SCNCamera()
+        
+        return cameraNode
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // create and add a camera to the scene
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
         scene.rootNode.addChildNode(cameraNode)
         var lifes: [LifeNode] = []
         for i in 0...2 {
@@ -47,7 +52,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         }
 
         // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
+        cameraNode.position = SCNVector3(x: -2, y: 9, z: 20)
+        cameraNode.eulerAngles = SCNVector3(-0.5, 0, 0)
         
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
@@ -68,14 +74,27 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
             newSpawns.append(contentsOf: answer.1)
         }
 
-        for node in dieNodes {
-            gridController.remove(node)
+        for node in lifeNodes {
+            if !dieNodes.contains(node) {
+                let life = LifeNode()
+                life.geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
+                var newCoordinate = gridController.gridMap.coordinateFor(position: node.position)
+                newCoordinate.y -= 1
+                gridController.addAt(life, coordinate: newCoordinate)
+            }
+            gridController.untrack(node)
         }
+//        for node in dieNodes {
+//            gridController.remove(node)
+//        }
         for place in newSpawns {
             let life = LifeNode()
             life.geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
-            gridController.addAt(life, coordinate: place)
+            var newPlace = place
+            newPlace.y -= 1
+            gridController.addAt(life, coordinate: newPlace)
         }
+        cameraNode.runAction(SCNAction.move(by: SCNVector3(0, -1, 0), duration: 0))
     }
 
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {

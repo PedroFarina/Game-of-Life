@@ -26,6 +26,7 @@ public class GridController {
             nodes.insert(object)
             gridMap.register(object, coordinate: coordinate)
             scene.rootNode.addChildNode(object)
+            object.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 2, duration: 1)))
         }
     }
 
@@ -45,6 +46,11 @@ public class GridController {
     public func remove(_ object: MyNode) {
         nodes.remove(object)
         object.removeFromParentNode()
+        gridMap.remove(object)
+    }
+
+    public func untrack(_ object: MyNode) {
+        nodes.remove(object)
         gridMap.remove(object)
     }
 }

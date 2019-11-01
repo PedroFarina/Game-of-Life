@@ -11,14 +11,10 @@ public class Rules {
     }
 
     public static func solitudeRule(_ neighbors: [MyNode]) -> Bool {
-        return neighbors.count < 2
+        return neighbors.count > 1
     }
 
     public static func overPopulationRule(_ neighbors: [MyNode]) -> Bool {
-        return neighbors.count > 4
-    }
-
-    public static func socialRule(_ neighbors: [MyNode]) -> Bool {
-        return 2 ... 3 ~= neighbors.count
+        return neighbors.count < 4
     }
 }

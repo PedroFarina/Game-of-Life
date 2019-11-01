@@ -49,6 +49,16 @@ public class GridMap {
         return occupieds[vecToString(coordinate)]
     }
 
+    func nodesFor(_ coordinates: [SCNVector3]) -> [MyNode] {
+        var nodes: [MyNode] = []
+        for coordinate in coordinates {
+            if let node = nodeFor(coordinate) {
+                nodes.append(node)
+            }
+        }
+        return nodes
+    }
+
     private func vecToString(_ vec: SCNVector3) -> String {
         return "\(vec.x)\(vec.y)\(vec.z)"
     }

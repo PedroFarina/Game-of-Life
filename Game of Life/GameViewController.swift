@@ -29,7 +29,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         return view
     }()
     
-    private lazy var gridController: GridController = GridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(5, 5, 5))
+    private lazy var gridController: GridController = GridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(2, 2, 2))
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +38,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         scene.rootNode.addChildNode(cameraNode)
+        var lifes: [LifeNode] = []
+        for i in 0...2 {
+            let life = LifeNode()
+            lifes.append(life)
+            life.geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
+            gridController.addAt(life, coordinate: SCNVector3(-i, 0, 0))
+        }
 
         // place the camera
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
@@ -47,13 +54,37 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         sceneView.addGestureRecognizer(tapGesture)
     }
 
+    func makeNewGeneration() {
+        guard let lifeNodes = gridController.nodes as? Set<LifeNode> else {
+            fatalError("Não eram life nodes")
+        }
+        var dieNodes: [LifeNode] = []
+        var newSpawns: [SCNVector3] = []
+        for node in lifeNodes {
+            let answer = node.nextGeneration()
+            if !answer.0 {
+                dieNodes.append(node)
+            }
+            newSpawns.append(contentsOf: answer.1)
+        }
+
+        for node in dieNodes {
+            gridController.remove(node)
+        }
+        for place in newSpawns {
+            let life = LifeNode()
+            life.geometry = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0)
+            gridController.addAt(life, coordinate: place)
+        }
+    }
+
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
     }
     
     @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
-        
+        makeNewGeneration()
     }
     
     override var shouldAutorotate: Bool {

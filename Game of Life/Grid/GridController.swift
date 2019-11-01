@@ -11,7 +11,8 @@ import SceneKit
 public class GridController {
     private let scene: SCNScene
     private let sceneView: SCNView
-    private var gridMap: GridMap
+    public private(set) var gridMap: GridMap
+    public private(set) var nodes: Set<MyNode> = []
 
     init(scene: SCNScene, sceneView: SCNView, tileDimension: SCNVector3) {
         self.scene = scene
@@ -22,19 +23,27 @@ public class GridController {
     public func addAt(_ object: MyNode, coordinate: SCNVector3) {
         if !gridMap.checkOccupied(coordinate) {
             object.position = gridMap.positionFor(coordinate: coordinate)
+            nodes.insert(object)
             gridMap.register(object, coordinate: coordinate)
             scene.rootNode.addChildNode(object)
         }
     }
 
+    public func addAt(_ object: MyNode, position: SCNVector3) {
+        let coordinate = gridMap.coordinateFor(position: position)
+        addAt(object, coordinate: coordinate)
+    }
+
     public func removeAt(_ coordinate: SCNVector3) {
         if let object = gridMap.nodeFor(coordinate) {
+            nodes.remove(object)
             object.removeFromParentNode()
             gridMap.remove(coordinate)
         }
     }
 
     public func remove(_ object: MyNode) {
+        nodes.remove(object)
         object.removeFromParentNode()
         gridMap.remove(object)
     }

@@ -6,20 +6,30 @@
 //  Copyright © 2019 Pedro Giuliano Farina. All rights reserved.
 //
 
-public class LifeNode: MyNode {
-    var rules:[([MyNode]) -> Bool] = [ Rules.overPopulationRule, Rules.solitudeRule, Rules.socialRule ]
+import SceneKit
 
-    func checkRules() -> Bool {
+public class LifeNode: MyNode {
+    var rules:[([MyNode]) -> Bool] = [ Rules.overPopulationRule, Rules.solitudeRule ]
+
+    func nextGeneration() -> (Bool, Set<SCNVector3>) {
         var conformingRules: Bool = true
 
-        let neighbors = getNeighbors()
+        let info = getInfo()
         for rule in rules {
-            conformingRules = conformingRules && rule(neighbors)
+            conformingRules = conformingRules && rule(info.0)
             if !conformingRules {
-                return false
+                break
             }
         }
-        return conformingRules
-    }
 
+        var newSpawns: Set<SCNVector3> = []
+        for blank in info.1 {
+            if !newSpawns.contains(blank) &&
+                gridMap?.nodesFor(blank.pointsAround()).count ?? 0 >= 3 {
+                newSpawns.insert(blank)
+            }
+        }
+
+        return (conformingRules, newSpawns)
+    }
 }

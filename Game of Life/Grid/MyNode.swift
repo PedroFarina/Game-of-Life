@@ -9,7 +9,7 @@
 import SceneKit
 
 public class MyNode: SCNNode {
-    private static let defaultSearch = SCNVector3(1, 0, 1)
+    private static let defaultSearch = SCNVector3(1, 1, 1)
     public weak var gridMap: GridMap?
 
     public func getInfoIn(_ range: SCNVector3) -> ([MyNode], [SCNVector3]) {

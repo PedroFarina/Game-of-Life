@@ -36,8 +36,10 @@ public class LifeGridController: GridController {
             list.execute(forGrid: self)
         }
 
+//        let color = UIColor.random()
         for coordinate in newCoordinates {
             let node = LifeNodePool.getLife()
+//            node.setColor(color)
             addAt(node, coordinate: coordinate)
         }
 

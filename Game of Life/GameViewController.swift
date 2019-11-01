@@ -50,8 +50,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         }
 
         // place the camera
-        cameraNode.position = SCNVector3(x: -2, y: 10, z: 20)
-        cameraNode.eulerAngles = SCNVector3(-1, 0, 0)
+        cameraNode.position = SCNVector3(x: -2, y: 15, z: 20)
+        cameraNode.eulerAngles = SCNVector3(-0.5, 0, 0)
         
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))

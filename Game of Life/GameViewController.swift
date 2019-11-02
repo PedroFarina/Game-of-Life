@@ -25,7 +25,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         view.delegate = self
         view.scene = scene
         view.allowsCameraControl = true
-        view.showsStatistics = true
+        view.showsStatistics = false
         return view
     }()
     
@@ -41,9 +41,25 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // create and add a light to the scene
+        let lightNode = SCNNode()
+        lightNode.light = SCNLight()
+        lightNode.light!.type = .omni
+        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
+        scene.rootNode.addChildNode(lightNode)
+        
+        // create and add an ambient light to the scene
+        let ambientLightNode = SCNNode()
+        ambientLightNode.light = SCNLight()
+        ambientLightNode.light!.type = .ambient
+        ambientLightNode.light!.color = UIColor.darkGray
+        scene.rootNode.addChildNode(ambientLightNode)
+
         // create and add a camera to the scene
         scene.rootNode.addChildNode(cameraNode)
-        makeGlider()
+        for i in 0...19 {
+            gridController.addAt(LifeNodePool.getLife(), position: SCNVector3(0, 0, i))
+        }
 
         // place the camera
         cameraNode.position = SCNVector3(x: -2, y: 15, z: 20)
@@ -67,13 +83,22 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         gridController.addAt(LifeNodePool.getLife(), position: SCNVector3(2,0,-1))
     }
 
+    let timeToLoop = 0.8
+    var currentTime = 0.8
+    var enabled = false
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        
+        if enabled {
+            if time > currentTime {
+                gridController.nextGeneration()
+                currentTime = time + timeToLoop
+            }
+        }
     }
     
     @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
-        makeNewGeneration()
+        enabled = true
+        print(cameraNode.transform)
     }
     
     override var shouldAutorotate: Bool {

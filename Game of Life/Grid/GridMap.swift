@@ -17,11 +17,11 @@ public class GridMap {
     }
 
     func positionFor(coordinate: SCNVector3) -> SCNVector3 {
-        return SCNVector3(floor(tileDimension.x * coordinate.x), floor(tileDimension.y * coordinate.y), floor(tileDimension.z * coordinate.z))
+        return SCNVector3(tileDimension.x * floor(coordinate.x), tileDimension.y * floor(coordinate.y), tileDimension.z * floor(coordinate.z))
     }
 
     func coordinateFor(position: SCNVector3) -> SCNVector3 {
-        return SCNVector3(position.x / tileDimension.x, position.y / tileDimension.y, position.z / tileDimension.z)
+        return SCNVector3(floor(position.x / tileDimension.x), floor(position.y / tileDimension.y), floor(position.z / tileDimension.z))
     }
 
     func register(_ object: MyNode, coordinate: SCNVector3) {

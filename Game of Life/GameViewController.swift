@@ -24,12 +24,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         }
         view.delegate = self
         view.scene = scene
-        view.allowsCameraControl = false
+        view.allowsCameraControl = true
         view.showsStatistics = false
         return view
     }()
     
-    private lazy var gridController: LifeGridController = LifeGridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(3, 1, 3))
+    private lazy var gridController: LifeGridController = LifeGridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(1, 1, 1))
 
     var cameraNode: SCNNode = {
         let cameraNode = SCNNode()
@@ -45,7 +45,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         let lightNode = SCNNode()
         lightNode.light = SCNLight()
         lightNode.light!.type = .omni
-        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
+        lightNode.position = SCNVector3(x: 0, y: 1000, z: 10)
         scene.rootNode.addChildNode(lightNode)
         
         // create and add an ambient light to the scene
@@ -57,12 +57,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
 
         // create and add a camera to the scene
         scene.rootNode.addChildNode(cameraNode)
-        for i in -1...1 {
+        for i in -5...4 {
             gridController.addAt(LifeNodePool.getLife(), coordinate: SCNVector3(i, 0, 0))
         }
 
         // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 15, z: 0)
+        cameraNode.position = SCNVector3(x: 0, y: 50, z: 0)
         cameraNode.eulerAngles = SCNVector3(-89.5, 0, 0)
         
         // add a tap gesture recognizer
@@ -83,14 +83,22 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         gridController.addAt(LifeNodePool.getLife(), position: SCNVector3(2,0,-1))
     }
 
-    let timeToLoop = 0.8
-    var currentTime = 0.8
+    let timeToLoop = 0.5
+    var currentTime = 0.5
     var enabled = false
+    var generation = 0
+    var offset = SCNVector3(0, 1, -1)
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         if enabled {
             if time > currentTime {
-                cameraNode.runAction(SCNAction.move(by: SCNVector3(0, -1, 0), duration: timeToLoop))
-                gridController.nextGeneration(moveBy: SCNVector3(0, -1, 0))
+                if generation == 17 {
+                    for node in scene.rootNode.childNodes {
+                        node.scale = node.scale + 0.15
+                    }
+                } else {
+                    generation += 1
+                    gridController.nextGeneration(moveBy: offset)
+                }
                 currentTime = time + timeToLoop
             }
         }

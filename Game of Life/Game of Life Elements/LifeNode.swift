@@ -9,11 +9,14 @@
 import SceneKit
 
 public class LifeNode: MyNode, GridListener {
-    private static let defaultDimensions: SCNVector3 =  SCNVector3(1, 1, 1)
 
     override init() {
         super.init()
-        let myGeometry = SCNTorus(ringRadius: 1, pipeRadius: 0.3)
+        let myGeometry = SCNBox(
+            width: 1,
+            height: 1,
+            length: 1,
+            chamferRadius: 0.3)
 
         myGeometry.firstMaterial?.diffuse.contents = UIColor.random()
 

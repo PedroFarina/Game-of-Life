@@ -91,7 +91,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         if enabled {
             if time > currentTime {
-                if generation == 17 {
+                if generation == 16 {
                     for node in scene.rootNode.childNodes {
                         node.scale = node.scale + 0.15
                     }

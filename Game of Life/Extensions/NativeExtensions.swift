@@ -10,7 +10,7 @@ import UIKit
 
 extension UIColor {
     static func random() -> UIColor {
-        let range: ClosedRange<CGFloat> = 0.6...1.0
+        let range: ClosedRange<CGFloat> = 0.4...1.0
 
         return UIColor(displayP3Red: CGFloat.random(in: range), green: CGFloat.random(in: range), blue: CGFloat.random(in: range), alpha: 1)
     }

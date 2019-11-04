@@ -24,12 +24,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         }
         view.delegate = self
         view.scene = scene
-        view.allowsCameraControl = true
+        view.allowsCameraControl = false
         view.showsStatistics = false
         return view
     }()
     
-    private lazy var gridController: LifeGridController = LifeGridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(1, 1, 1))
+    private lazy var gridController: LifeGridController = LifeGridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(3, 1, 3))
 
     var cameraNode: SCNNode = {
         let cameraNode = SCNNode()
@@ -57,13 +57,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
 
         // create and add a camera to the scene
         scene.rootNode.addChildNode(cameraNode)
-        for i in 0...19 {
-            gridController.addAt(LifeNodePool.getLife(), position: SCNVector3(0, 0, i))
+        for i in -1...1 {
+            gridController.addAt(LifeNodePool.getLife(), coordinate: SCNVector3(i, 0, 0))
         }
 
         // place the camera
-        cameraNode.position = SCNVector3(x: -2, y: 15, z: 20)
-        cameraNode.eulerAngles = SCNVector3(-0.5, 0, 0)
+        cameraNode.position = SCNVector3(x: 0, y: 15, z: 0)
+        cameraNode.eulerAngles = SCNVector3(-89.5, 0, 0)
         
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
@@ -89,7 +89,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         if enabled {
             if time > currentTime {
-                gridController.nextGeneration()
+                cameraNode.runAction(SCNAction.move(by: SCNVector3(0, -1, 0), duration: timeToLoop))
+                gridController.nextGeneration(moveBy: SCNVector3(0, -1, 0))
                 currentTime = time + timeToLoop
             }
         }
@@ -98,7 +99,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
         enabled = true
-        print(cameraNode.transform)
     }
     
     override var shouldAutorotate: Bool {

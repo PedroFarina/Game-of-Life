@@ -13,11 +13,7 @@ public class LifeNode: MyNode, GridListener {
 
     override init() {
         super.init()
-        let myGeometry = SCNBox(
-            width: CGFloat(LifeNode.defaultDimensions.x),
-            height: CGFloat(LifeNode.defaultDimensions.y),
-            length: CGFloat(LifeNode.defaultDimensions.z),
-            chamferRadius: 0)
+        let myGeometry = SCNTorus(ringRadius: 1, pipeRadius: 0.3)
 
         myGeometry.firstMaterial?.diffuse.contents = UIColor.random()
 
@@ -35,15 +31,19 @@ public class LifeNode: MyNode, GridListener {
     var rules:[([MyNode]) -> Bool] = [ Rules.overPopulationRule, Rules.solitudeRule ]
     var willLive: Bool = true
 
-    func getNextGenerationSpots(controller: LifeGridController) -> Set<SCNVector3> {
+    func getNextGenerationSpots(controller: LifeGridController, willMove: Bool = false) -> Set<SCNVector3> {
         let info = getInfo()
 
         for rule in rules {
             willLive = willLive && rule(info.0)
-            if !willLive {
+            if !willMove && !willLive {
                 controller.register(self)
                 break
             }
+        }
+
+        if willMove {
+            controller.register(self)
         }
 
         var newSpawns: Set<SCNVector3> = []
@@ -57,8 +57,16 @@ public class LifeNode: MyNode, GridListener {
         return newSpawns
     }
 
-    public func execute(forGrid grid: LifeGridController) {
-        if !willLive {
+    public func execute(forGrid grid: LifeGridController, offSet: SCNVector3? = nil) {
+        if let offSet = offSet, let gridMap = gridMap {
+            grid.untrack(self)
+            if willLive {
+                let next = LifeNodePool.getLife()
+                let myCoord = gridMap.coordinateFor(position: position)
+                let pos = gridMap.positionFor(coordinate: myCoord + offSet)
+                grid.addAt(next, position: pos)
+            }
+        } else if !willLive {
             grid.remove(self)
         }
     }

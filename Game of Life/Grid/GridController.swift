@@ -13,13 +13,6 @@ public class GridController {
     private let sceneView: SCNView
     public private(set) var gridMap: GridMap
     public private(set) var nodes: [MyNode] = []
-    private let colors: [Int: UIColor] = {
-        var colors: [Int: UIColor] = [:]
-        for i in 0 ... 10000 {
-            colors[i-5000] = UIColor.random()
-        }
-        return colors
-    }()
 
     init(scene: SCNScene, sceneView: SCNView, tileDimension: SCNVector3) {
         self.scene = scene

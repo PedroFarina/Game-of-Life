@@ -29,6 +29,7 @@
 		02B87D73236B510C0041F2C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02B87D72236B510C0041F2C5 /* Assets.xcassets */; };
 		02B87D76236B510C0041F2C5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02B87D74236B510C0041F2C5 /* LaunchScreen.storyboard */; };
 		02DC11C82370C7FD001E2FF2 /* float4x4Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DC11C72370C7FD001E2FF2 /* float4x4Extensions.swift */; };
+		02F76AB42372065B0018AAEA /* ARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F76AB32372065B0018AAEA /* ARView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		02B87D75236B510C0041F2C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		02B87D77236B510C0041F2C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		02DC11C72370C7FD001E2FF2 /* float4x4Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = float4x4Extensions.swift; sourceTree = "<group>"; };
+		02F76AB32372065B0018AAEA /* ARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,24 @@
 			path = Backend;
 			sourceTree = "<group>";
 		};
+		025F13A7237203E6002F6591 /* Pool */ = {
+			isa = PBXGroup;
+			children = (
+				029D08CA236CBADC00901F29 /* Pool.swift */,
+				029D08CC236CBB2000901F29 /* LifeNodePool.swift */,
+			);
+			path = Pool;
+			sourceTree = "<group>";
+		};
+		025F13A8237203F1002F6591 /* Scene Management */ = {
+			isa = PBXGroup;
+			children = (
+				02B87D6D236B51090041F2C5 /* GameViewController.swift */,
+				02F76AB32372065B0018AAEA /* ARView.swift */,
+			);
+			path = "Scene Management";
+			sourceTree = "<group>";
+		};
 		029D08C4236C9D8800901F29 /* Game of Life Elements */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,15 +158,14 @@
 		02B87D68236B51090041F2C5 /* Game of Life */ = {
 			isa = PBXGroup;
 			children = (
+				025F13A8237203F1002F6591 /* Scene Management */,
+				025F13A7237203E6002F6591 /* Pool */,
 				025F13992371DFF7002F6591 /* Online */,
-				029D08CC236CBB2000901F29 /* LifeNodePool.swift */,
-				029D08CA236CBADC00901F29 /* Pool.swift */,
 				029D08C5236C9DB700901F29 /* Extensions */,
 				029D08C4236C9D8800901F29 /* Game of Life Elements */,
 				022DCC8C236B77F8008DE597 /* Grid */,
 				02B87D69236B51090041F2C5 /* AppDelegate.swift */,
 				02B87D6B236B51090041F2C5 /* art.scnassets */,
-				02B87D6D236B51090041F2C5 /* GameViewController.swift */,
 				02B87D6F236B51090041F2C5 /* Main.storyboard */,
 				02B87D72236B510C0041F2C5 /* Assets.xcassets */,
 				02B87D74236B510C0041F2C5 /* LaunchScreen.storyboard */,
@@ -237,6 +256,7 @@
 				025F13A42371E316002F6591 /* Extensions.swift in Sources */,
 				029D08C1236BB9BA00901F29 /* SCNVector3Extension.swift in Sources */,
 				021DE192236B8A8400BCB8CA /* LifeNode.swift in Sources */,
+				02F76AB42372065B0018AAEA /* ARView.swift in Sources */,
 				025F139D2371E062002F6591 /* NodePosition.swift in Sources */,
 				02B87D6E236B51090041F2C5 /* GameViewController.swift in Sources */,
 				025F139B2371E027002F6591 /* PlayerInputInfo.swift in Sources */,

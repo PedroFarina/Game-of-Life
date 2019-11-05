@@ -10,18 +10,32 @@ import SceneKit
 
 public class GridMap {
     let tileDimension: SCNVector3
-    var occupieds: [String: MyNode] = [:]
+    public private(set) var origin: SCNVector3 = SCNVector3(0, 0, 0)
+    private var occupieds: [String: MyNode] = [:]
 
     init(tileDimension: SCNVector3) {
         self.tileDimension = tileDimension
     }
 
+    func changeOrigin(to pos: SCNVector3) {
+        print("origin:\(origin) newOrigin:\(pos)")
+        for node in occupieds {
+            let atualPosition = node.value.position
+            let newPosition = atualPosition - origin + pos
+            print("atual:\(atualPosition), new:\(newPosition)")
+            node.value.position = newPosition
+        }
+        origin = pos
+    }
+
     func positionFor(coordinate: SCNVector3) -> SCNVector3 {
-        return SCNVector3(tileDimension.x * floor(coordinate.x), tileDimension.y * floor(coordinate.y), tileDimension.z * floor(coordinate.z))
+        return SCNVector3(tileDimension.x * floor(coordinate.x), tileDimension.y * floor(coordinate.y), tileDimension.z * floor(coordinate.z)) + origin
     }
 
     func coordinateFor(position: SCNVector3) -> SCNVector3 {
-        return SCNVector3(floor(position.x / tileDimension.x), floor(position.y / tileDimension.y), floor(position.z / tileDimension.z))
+        let staticPos = position - origin
+
+        return SCNVector3(floor(staticPos.x / tileDimension.x), floor(staticPos.y / tileDimension.y), floor(staticPos.z / tileDimension.z))
     }
 
     func register(_ object: MyNode, coordinate: SCNVector3) {

@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -10,12 +11,52 @@
         <scene sceneID="tXr-a1-R10">
             <objects>
                 <viewController id="BV1-FR-VrT" customClass="GameViewController" customModule="Game_of_Life" customModuleProvider="target" sceneMemberID="viewController">
-                    <arscnView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="zgB-NT-2G3">
+                    <view key="view" contentMode="scaleToFill" id="SPk-bF-v6z">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </arscnView>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XRb-Nq-c10" customClass="ARView" customModule="Game_of_Life" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="-2.5" width="414" height="911"/>
+                            </arscnView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NED-hy-Rkw">
+                                <rect key="frame" x="188" y="820" width="38" height="30"/>
+                                <state key="normal" title="Place"/>
+                                <connections>
+                                    <action selector="btnPlaceTap:" destination="BV1-FR-VrT" eventType="touchUpInside" id="nxi-ZQ-OMe"/>
+                                </connections>
+                            </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="iWg-C3-ZHQ">
+                                <rect key="frame" x="367" y="819.5" width="51" height="31"/>
+                                <connections>
+                                    <action selector="onOffChanged:" destination="BV1-FR-VrT" eventType="valueChanged" id="N2O-JA-YIZ"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="O sistema está inicializando" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JpA-iY-H54">
+                                <rect key="frame" x="41" y="74" width="332" height="33.5"/>
+                                <color key="backgroundColor" systemColor="secondarySystemFillColor" red="0.47058823529999999" green="0.47058823529999999" blue="0.50196078430000002" alpha="0.16" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="bFK-ve-JhE" firstAttribute="bottom" secondItem="NED-hy-Rkw" secondAttribute="bottom" constant="12" id="8we-Lx-KdS"/>
+                            <constraint firstItem="JpA-iY-H54" firstAttribute="centerX" secondItem="XRb-Nq-c10" secondAttribute="centerX" id="AhE-ke-efd"/>
+                            <constraint firstItem="XRb-Nq-c10" firstAttribute="centerX" secondItem="bFK-ve-JhE" secondAttribute="centerX" id="CTF-Jc-rt8"/>
+                            <constraint firstItem="iWg-C3-ZHQ" firstAttribute="centerY" secondItem="NED-hy-Rkw" secondAttribute="centerY" id="ChT-hp-Sc9"/>
+                            <constraint firstItem="JpA-iY-H54" firstAttribute="centerY" secondItem="XRb-Nq-c10" secondAttribute="centerY" multiplier="0.2" id="GcH-CH-6oq"/>
+                            <constraint firstItem="iWg-C3-ZHQ" firstAttribute="leading" secondItem="NED-hy-Rkw" secondAttribute="trailing" constant="141" id="QE8-Wt-4uc"/>
+                            <constraint firstItem="XRb-Nq-c10" firstAttribute="height" secondItem="SPk-bF-v6z" secondAttribute="height" constant="15" id="R8G-0X-QRp"/>
+                            <constraint firstItem="NED-hy-Rkw" firstAttribute="centerX" secondItem="bFK-ve-JhE" secondAttribute="centerX" id="h30-1S-u72"/>
+                            <constraint firstItem="XRb-Nq-c10" firstAttribute="centerY" secondItem="bFK-ve-JhE" secondAttribute="centerY" id="v4L-iC-bXu"/>
+                            <constraint firstItem="XRb-Nq-c10" firstAttribute="width" secondItem="bFK-ve-JhE" secondAttribute="width" id="vgq-QG-wV5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="bFK-ve-JhE"/>
+                    </view>
                     <connections>
-                        <outlet property="sceneView" destination="zgB-NT-2G3" id="fTv-zh-hVj"/>
+                        <outlet property="lblSessionState" destination="JpA-iY-H54" id="SFy-bO-civ"/>
+                        <outlet property="sceneView" destination="XRb-Nq-c10" id="EYF-qs-Ex4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>

@@ -11,9 +11,9 @@ import SceneKit
 extension SCNVector3 {
     func pointsAround() -> Set<SCNVector3> {
         var points: Set<SCNVector3> = []
-        for x in Int(self.x - 1) ... Int(self.x + 1) {
-            for y in Int(self.y - 1) ... Int(self.y + 1) {
-                for z in Int(self.z - 1) ... Int(self.z + 1) {
+        for x in Int(self.x - MyNode.defaultSearch.x) ... Int(self.x + MyNode.defaultSearch.x) {
+            for y in Int(self.y - MyNode.defaultSearch.y) ... Int(self.y + MyNode.defaultSearch.y) {
+                for z in Int(self.z - MyNode.defaultSearch.z) ... Int(self.z + MyNode.defaultSearch.z) {
                     let point = SCNVector3(x, y, z)
                     if point != self {
                         points.insert(SCNVector3(x, y, z))

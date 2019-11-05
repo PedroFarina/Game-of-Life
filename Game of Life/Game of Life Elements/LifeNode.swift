@@ -13,10 +13,10 @@ public class LifeNode: MyNode, GridListener {
     override init() {
         super.init()
         let myGeometry = SCNBox(
-            width: 1,
-            height: 1,
-            length: 1,
-            chamferRadius: 0.3)
+            width: 0.1,
+            height: 0.1,
+            length: 0.1,
+            chamferRadius: 0.03)
 
         myGeometry.firstMaterial?.diffuse.contents = UIColor.random()
 

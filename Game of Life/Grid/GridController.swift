@@ -34,7 +34,7 @@ public class GridController {
             nodes.append(object)
             gridMap.register(object, coordinate: coordinate)
             scene.rootNode.addChildNode(object)
-            object.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 2, y: 0, z: 2, duration: 0.5)))
+            object.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 0, z: 2, duration: 0.5)))
         }
     }
 

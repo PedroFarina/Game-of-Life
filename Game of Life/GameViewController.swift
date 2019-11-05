@@ -9,8 +9,11 @@
 import UIKit
 import QuartzCore
 import SceneKit
+import ARKit
 
-class GameViewController: UIViewController, SCNSceneRendererDelegate {
+class GameViewController: UIViewController, ARSCNViewDelegate {
+
+    @IBOutlet var sceneView: ARSCNView!
 
     private var scene: SCNScene = {
         guard let scene = SCNScene(named: "art.scnassets/GameScene.scn") else {
@@ -18,18 +21,25 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         }
         return scene
     }()
-    private lazy var sceneView: SCNView = {
-        guard let view = self.view as? SCNView else {
-            fatalError("Não foi possível inicializar a view")
-        }
-        view.delegate = self
-        view.scene = scene
-        view.allowsCameraControl = true
-        view.showsStatistics = false
-        return view
-    }()
-    
-    private lazy var gridController: LifeGridController = LifeGridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(1, 1, 1))
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Create a session configuration
+        let configuration = ARWorldTrackingConfiguration()
+
+        // Run the view's session
+        sceneView.session.run(configuration)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Pause the view's session
+        sceneView.session.pause()
+    }
+
+    private lazy var gridController: LifeGridController = LifeGridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(0.1, 0.1, 0.1))
 
     var cameraNode: SCNNode = {
         let cameraNode = SCNNode()
@@ -39,13 +49,16 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     }()
 
     override func viewDidLoad() {
+        sceneView.delegate = self
+        sceneView.showsStatistics = true
+        sceneView.scene = scene
         super.viewDidLoad()
 
         // create and add a light to the scene
         let lightNode = SCNNode()
         lightNode.light = SCNLight()
         lightNode.light!.type = .omni
-        lightNode.position = SCNVector3(x: 0, y: 1000, z: 10)
+        lightNode.position = SCNVector3(x: 0, y: 100, z: 10)
         scene.rootNode.addChildNode(lightNode)
         
         // create and add an ambient light to the scene
@@ -55,15 +68,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         ambientLightNode.light!.color = UIColor.darkGray
         scene.rootNode.addChildNode(ambientLightNode)
 
-        // create and add a camera to the scene
-        scene.rootNode.addChildNode(cameraNode)
-        for i in -5...4 {
-            gridController.addAt(LifeNodePool.getLife(), coordinate: SCNVector3(i, 0, 0))
-        }
-
-        // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 50, z: 0)
-        cameraNode.eulerAngles = SCNVector3(-89.5, 0, 0)
+        makeGlider()
         
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
@@ -77,35 +82,26 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     func makeGlider() {
         for i in 0...2 {
             let life = LifeNodePool.getLife()
-            gridController.addAt(life, coordinate: SCNVector3(0, 0, -i))
+            gridController.addAt(life, coordinate: SCNVector3(-i, -10, -10))
         }
-        gridController.addAt(LifeNodePool.getLife(), position: SCNVector3(1,0,0))
-        gridController.addAt(LifeNodePool.getLife(), position: SCNVector3(2,0,-1))
+        gridController.addAt(LifeNodePool.getLife(), coordinate: SCNVector3(-1, -10,-12))
+        gridController.addAt(LifeNodePool.getLife(), coordinate: SCNVector3(0, -10,-11))
     }
 
     let timeToLoop = 0.5
     var currentTime = 0.5
     var enabled = false
-    var generation = 0
-    var offset = SCNVector3(0, 1, -1)
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         if enabled {
             if time > currentTime {
-                if generation == 16 {
-                    for node in scene.rootNode.childNodes {
-                        node.scale = node.scale + 0.15
-                    }
-                } else {
-                    generation += 1
-                    gridController.nextGeneration(moveBy: offset)
-                }
+                gridController.nextGeneration()
                 currentTime = time + timeToLoop
             }
         }
     }
     
     @objc
-    func handleTap(_ gestureRecognize: UIGestureRecognizer) {
+    func handleTap(_ recognizer: UIGestureRecognizer) {
         enabled = true
     }
     

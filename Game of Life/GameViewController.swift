@@ -57,7 +57,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
 
         // create and add a camera to the scene
         scene.rootNode.addChildNode(cameraNode)
-        for i in -5...4 {
+        for i in -3...3 {
             gridController.addAt(LifeNodePool.getLife(), coordinate: SCNVector3(i, 0, 0))
         }
 
@@ -83,18 +83,16 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         gridController.addAt(LifeNodePool.getLife(), position: SCNVector3(2,0,-1))
     }
 
-    let timeToLoop = 0.5
-    var currentTime = 0.5
+    var timeToLoop = 0.8
+    var currentTime = 0.8
     var enabled = false
     var generation = 0
-    var offset = SCNVector3(0, 1, -1)
+    var offset = SCNVector3(0, -1, 0)
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         if enabled {
             if time > currentTime {
-                if generation == 16 {
-                    for node in scene.rootNode.childNodes {
-                        node.scale = node.scale + 0.15
-                    }
+                if generation == 12 {
+                    makeChristmas()
                 } else {
                     generation += 1
                     gridController.nextGeneration(moveBy: offset)
@@ -102,6 +100,59 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
                 currentTime = time + timeToLoop
             }
         }
+    }
+
+    var piscaPiscaNodes: [SCNNode] = []
+    var piscapiscaColors: [UIColor] = [#colorLiteral(red: 0.8697137237, green: 0.3656387925, blue: 0.8691763282, alpha: 1), #colorLiteral(red: 0.7858144641, green: 0.8306753039, blue: 0.06237793714, alpha: 1), #colorLiteral(red: 0, green: 0.4612190127, blue: 0.8387741446, alpha: 1)]
+    func makeChristmas() {
+        if piscaPiscaNodes.isEmpty {
+            timeToLoop = 1
+            if let star = scene.rootNode.childNode(withName: "star", recursively: true) {
+                star.isHidden = false
+            }
+            for node in scene.rootNode.childNodes {
+                node.geometry?.firstMaterial?.diffuse.contents = #colorLiteral(red: 0, green: 0.5852099061, blue: 0, alpha: 1)
+                if node.position.y != 0 {
+                    if node.position.y > -12 {
+                        let rand = Int.random(in: 0...100)
+                        if rand % 6 == 0 {
+                            piscaPiscaNodes.append(node)
+                            if let material = node.geometry?.firstMaterial {
+                                material.diffuse.intensity = 0.7
+                                makePiscaPiscaAnimation(property: material.emission)
+                            }
+                        } else if rand % 5 == 0 {
+                            node.geometry?.firstMaterial?.diffuse.contents = #colorLiteral(red: 0.7882512212, green: 0.09814932197, blue: 0.1365611553, alpha: 1)
+                        }
+                    } else {
+                        node.geometry?.firstMaterial?.diffuse.contents = #colorLiteral(red: 0.4106108546, green: 0.2178105116, blue: 0.04584360868, alpha: 1)
+                    }
+                }
+                
+            }
+        }
+        
+        for piscapisca in piscaPiscaNodes {
+            if let material = piscapisca.geometry?.firstMaterial {
+                var color = piscapiscaColors.randomElement()
+                while color == material.diffuse.contents as? UIColor {
+                    color = piscapiscaColors.randomElement()
+                }
+                material.diffuse.contents = color
+                material.emission.contents = color
+            }
+        }
+    }
+    
+    func makePiscaPiscaAnimation(property: SCNMaterialProperty) {
+        let animation = CABasicAnimation(keyPath: "intensity")
+        animation.fromValue = 0.0
+        animation.toValue = 0.8
+        animation.duration = timeToLoop/2
+        animation.autoreverses = true
+        animation.repeatCount = .infinity
+        
+        property.addAnimation(animation, forKey: "extrude")
     }
     
     @objc

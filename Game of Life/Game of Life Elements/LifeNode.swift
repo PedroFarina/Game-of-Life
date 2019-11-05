@@ -18,7 +18,9 @@ public class LifeNode: MyNode, GridListener {
             length: 1,
             chamferRadius: 0.3)
 
-        myGeometry.firstMaterial?.diffuse.contents = UIColor.random()
+        if let material = myGeometry.firstMaterial {
+            material.diffuse.contents = UIColor.random()
+        }
 
         geometry = myGeometry
     }

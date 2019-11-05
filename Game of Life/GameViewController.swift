@@ -25,7 +25,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         view.delegate = self
         view.scene = scene
         view.allowsCameraControl = true
-        view.showsStatistics = true
+        view.showsStatistics = false
         return view
     }()
     
@@ -41,13 +41,29 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // create and add a light to the scene
+        let lightNode = SCNNode()
+        lightNode.light = SCNLight()
+        lightNode.light!.type = .omni
+        lightNode.position = SCNVector3(x: 0, y: 1000, z: 10)
+        scene.rootNode.addChildNode(lightNode)
+        
+        // create and add an ambient light to the scene
+        let ambientLightNode = SCNNode()
+        ambientLightNode.light = SCNLight()
+        ambientLightNode.light!.type = .ambient
+        ambientLightNode.light!.color = UIColor.darkGray
+        scene.rootNode.addChildNode(ambientLightNode)
+
         // create and add a camera to the scene
         scene.rootNode.addChildNode(cameraNode)
-        makeGlider()
+        for i in -5...4 {
+            gridController.addAt(LifeNodePool.getLife(), coordinate: SCNVector3(i, 0, 0))
+        }
 
         // place the camera
-        cameraNode.position = SCNVector3(x: -2, y: 15, z: 20)
-        cameraNode.eulerAngles = SCNVector3(-0.5, 0, 0)
+        cameraNode.position = SCNVector3(x: 0, y: 50, z: 0)
+        cameraNode.eulerAngles = SCNVector3(-89.5, 0, 0)
         
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
@@ -67,13 +83,30 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         gridController.addAt(LifeNodePool.getLife(), position: SCNVector3(2,0,-1))
     }
 
+    let timeToLoop = 0.5
+    var currentTime = 0.5
+    var enabled = false
+    var generation = 0
+    var offset = SCNVector3(0, 1, -1)
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        
+        if enabled {
+            if time > currentTime {
+                if generation == 16 {
+                    for node in scene.rootNode.childNodes {
+                        node.scale = node.scale + 0.15
+                    }
+                } else {
+                    generation += 1
+                    gridController.nextGeneration(moveBy: offset)
+                }
+                currentTime = time + timeToLoop
+            }
+        }
     }
     
     @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
-        makeNewGeneration()
+        enabled = true
     }
     
     override var shouldAutorotate: Bool {

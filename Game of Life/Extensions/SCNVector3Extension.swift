@@ -28,6 +28,10 @@ extension SCNVector3 {
         return NodePosition(x: x, y: y, z: z)
     }
 
+    func toNodePosition() -> NodePosition {
+        return NodePosition(x: x, y: y, z: z)
+    }
+
     public static func +(left: SCNVector3, right: SCNVector3) -> SCNVector3 {
         return SCNVector3(left.x + right.x, left.y + right.y, left.z + right.z)
     }

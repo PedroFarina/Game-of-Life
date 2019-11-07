@@ -18,6 +18,7 @@ public class VersusView: SCNView, SCNSceneRendererDelegate {
     let timeToLoop = 0.5
     lazy var currentTime = timeToLoop
     private lazy var gridController = LifeGridController(scene: versusScene, sceneView: self, tileDimension: SCNVector3(0.1, 0.1, 0.1))
+    private var loopEnabled: Bool = false
     public func start() {
         self.scene = versusScene
         let cameraNode = SCNNode()
@@ -28,9 +29,15 @@ public class VersusView: SCNView, SCNSceneRendererDelegate {
         versusScene.rootNode.addChildNode(cameraNode)
         makeLights()
         self.allowsCameraControl = true
-        for i in -1...1 {
-            let life = LifeNodePool.getLife()
-            gridController.addAt(life, coordinate: SCNVector3(i, 0, 0))
+
+        APIRequests.getRequest(url: "https://be-life-server.herokuapp.com/api/nodes/5dc4618198e27dcc67670092", decodableType: PlayerInputInfo.self) { (answer) in
+            switch answer {
+                case .result(let info as PlayerInputInfo):
+                
+                self.loopEnabled = true
+                default:
+                fatalError()
+            }
         }
     }
 
@@ -51,9 +58,11 @@ public class VersusView: SCNView, SCNSceneRendererDelegate {
     }
 
     public func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        if time > currentTime {
-            gridController.nextGeneration()
-            currentTime = time + timeToLoop
+        if loopEnabled {
+            if time > currentTime {
+                gridController.nextGeneration()
+                currentTime = time + timeToLoop
+            }
         }
     }
 }

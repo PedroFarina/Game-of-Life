@@ -6,9 +6,8 @@
 //  Copyright © 2019 Pedro Giuliano Farina. All rights reserved.
 //
 
-import SceneKit
-
 public struct PlayerInputInfo: Codable {
-    var nodesPositions: [NodePosition]?
+    var _id: String?
     var name: String?
+    var nodesPositions: [NodePosition]?
 }

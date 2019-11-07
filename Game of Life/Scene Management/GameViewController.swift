@@ -14,8 +14,15 @@ import ARKit
 class GameViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     let timeToLoop = 0.5
     lazy var currentTime = timeToLoop
-    var loopEnabled: Bool = false
+    var loopEnabled: Bool = false {
+        didSet {
+            versusView.isHidden = false
+            versusView.start()
+        }
+    }
+    @IBOutlet weak var btnPlace: UIButton!
 
+    @IBOutlet weak var versusView: VersusView!
     @IBOutlet var sceneView: ARView!
     var calibrated: Bool = false
 
@@ -52,12 +59,7 @@ class GameViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate
         return calibrated && featurePointsEnough
     }
 
-    public private(set) var scene: SCNScene = {
-        guard let scene = SCNScene(named: "art.scnassets/GameScene.scn") else {
-            fatalError("Não foi possível inicializar a cena")
-        }
-        return scene
-    }()
+    public private(set) var scene: SCNScene = SCNScene()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -72,11 +74,6 @@ class GameViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate
 
     private lazy var gridController: LifeGridController = LifeGridController(scene: scene, sceneView: sceneView, tileDimension: SCNVector3(0.1, 0.1, 0.1))
 
-    var cameraNode: SCNNode = {
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
-        return cameraNode
-    }()
 
     override func viewDidLoad() {
         sceneView.controller = self
@@ -136,6 +133,9 @@ class GameViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate
         if frame.rawFeaturePoints?.points.count ?? 0 > 50 {
             featurePointsEnough = true
         }
+        if btnPlace == nil {
+            return
+        }
         let results = sceneView.castRay(at: sceneView.center)
         if let rayCastResult = results.first {
             let pos = SCNVector3(rayCastResult.worldTransform.translation)
@@ -143,8 +143,10 @@ class GameViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate
             coord.y = -10
             if gridController.gridMap.checkOccupied(coord) {
                 ghostNode.setColor(.red)
+                btnPlace.setTitleColor(.red, for: .normal)
             } else {
                 ghostNode.setColor(.green)
+                btnPlace.setTitleColor(.green, for: .normal)
             }
             let gridPos = gridController.gridMap.positionFor(coordinate: coord)
             ghostNode.position = gridPos
@@ -162,17 +164,17 @@ class GameViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate
     }
     
     @IBAction func btnPlaceTap(_ sender: UIButton) {
-        if ghostNode.getColor() == .green {
+        if btnPlace.titleColor(for: .normal) == .green {
             gridController.addAt(LifeNodePool.getLife(), position: ghostNode.position)
         }
     }
 
-    @IBAction func onOffChanged(_ sender: UISwitch) {
-        loopEnabled = sender.isOn
+    @IBAction func btnGoTap(_ sender: UIButton) {
+        loopEnabled = true
         if loopEnabled {
             ghostNode.removeFromParentNode()
-        } else {
-            scene.rootNode.addChildNode(ghostNode)
+            sender.removeFromSuperview()
+            btnPlace.removeFromSuperview()
         }
     }
     

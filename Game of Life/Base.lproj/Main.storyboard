@@ -19,18 +19,24 @@
                                 <rect key="frame" x="0.0" y="-2.5" width="414" height="911"/>
                             </arscnView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NED-hy-Rkw">
-                                <rect key="frame" x="188" y="820" width="38" height="30"/>
-                                <state key="normal" title="Place"/>
+                                <rect key="frame" x="182" y="800" width="50" height="50"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="NED-hy-Rkw" secondAttribute="height" multiplier="1:1" id="gxI-mv-vpo"/>
+                                    <constraint firstAttribute="width" constant="50" id="nLG-AX-Qwd"/>
+                                </constraints>
+                                <state key="normal" title="Place">
+                                    <color key="titleColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="btnPlaceTap:" destination="BV1-FR-VrT" eventType="touchUpInside" id="nxi-ZQ-OMe"/>
                                 </connections>
                             </button>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="iWg-C3-ZHQ">
-                                <rect key="frame" x="367" y="819.5" width="51" height="31"/>
-                                <connections>
-                                    <action selector="onOffChanged:" destination="BV1-FR-VrT" eventType="valueChanged" id="N2O-JA-YIZ"/>
-                                </connections>
-                            </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="O sistema está inicializando" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JpA-iY-H54">
                                 <rect key="frame" x="41" y="74" width="332" height="33.5"/>
                                 <color key="backgroundColor" systemColor="secondarySystemFillColor" red="0.47058823529999999" green="0.47058823529999999" blue="0.50196078430000002" alpha="0.16" colorSpace="custom" customColorSpace="sRGB"/>
@@ -38,30 +44,52 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <sceneKitView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sJ9-zT-acq" customClass="VersusView" customModule="Game_of_Life" customModuleProvider="target">
+                                <rect key="frame" x="240" y="516.5" width="154" height="333.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="sJ9-zT-acq" secondAttribute="height" multiplier="414:896" id="GFe-Om-c8m"/>
+                                    <constraint firstAttribute="width" constant="154" id="mWQ-os-6cY"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </sceneKitView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wtu-Pf-YOz">
+                                <rect key="frame" x="28" y="820" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="GO"/>
+                                <connections>
+                                    <action selector="btnGoTap:" destination="BV1-FR-VrT" eventType="touchUpInside" id="AFW-mj-bLT"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="bFK-ve-JhE" firstAttribute="bottom" secondItem="NED-hy-Rkw" secondAttribute="bottom" constant="12" id="8we-Lx-KdS"/>
                             <constraint firstItem="JpA-iY-H54" firstAttribute="centerX" secondItem="XRb-Nq-c10" secondAttribute="centerX" id="AhE-ke-efd"/>
                             <constraint firstItem="XRb-Nq-c10" firstAttribute="centerX" secondItem="bFK-ve-JhE" secondAttribute="centerX" id="CTF-Jc-rt8"/>
-                            <constraint firstItem="iWg-C3-ZHQ" firstAttribute="centerY" secondItem="NED-hy-Rkw" secondAttribute="centerY" id="ChT-hp-Sc9"/>
+                            <constraint firstItem="bFK-ve-JhE" firstAttribute="trailing" secondItem="sJ9-zT-acq" secondAttribute="trailing" constant="20" id="DiE-Yg-AJQ"/>
                             <constraint firstItem="JpA-iY-H54" firstAttribute="centerY" secondItem="XRb-Nq-c10" secondAttribute="centerY" multiplier="0.2" id="GcH-CH-6oq"/>
-                            <constraint firstItem="iWg-C3-ZHQ" firstAttribute="leading" secondItem="NED-hy-Rkw" secondAttribute="trailing" constant="141" id="QE8-Wt-4uc"/>
                             <constraint firstItem="XRb-Nq-c10" firstAttribute="height" secondItem="SPk-bF-v6z" secondAttribute="height" constant="15" id="R8G-0X-QRp"/>
                             <constraint firstItem="NED-hy-Rkw" firstAttribute="centerX" secondItem="bFK-ve-JhE" secondAttribute="centerX" id="h30-1S-u72"/>
+                            <constraint firstItem="bFK-ve-JhE" firstAttribute="bottom" secondItem="sJ9-zT-acq" secondAttribute="bottom" constant="12" id="i8D-tK-cRG"/>
                             <constraint firstItem="XRb-Nq-c10" firstAttribute="centerY" secondItem="bFK-ve-JhE" secondAttribute="centerY" id="v4L-iC-bXu"/>
                             <constraint firstItem="XRb-Nq-c10" firstAttribute="width" secondItem="bFK-ve-JhE" secondAttribute="width" id="vgq-QG-wV5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bFK-ve-JhE"/>
                     </view>
                     <connections>
+                        <outlet property="btnPlace" destination="NED-hy-Rkw" id="sP7-kP-Ff1"/>
                         <outlet property="lblSessionState" destination="JpA-iY-H54" id="SFy-bO-civ"/>
                         <outlet property="sceneView" destination="XRb-Nq-c10" id="EYF-qs-Ex4"/>
+                        <outlet property="versusView" destination="sJ9-zT-acq" id="ygN-hb-CCi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="88"/>
+            <point key="canvasLocation" x="137.68115942028987" y="87.723214285714278"/>
         </scene>
     </scenes>
 </document>

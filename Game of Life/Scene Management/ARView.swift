@@ -63,4 +63,11 @@ public class ARView: ARSCNView, ARCoachingOverlayViewDelegate{
             self.controller?.calibrated = true
         })
     }
+
+    func castRay(at pos: CGPoint, for alignment: ARRaycastQuery.TargetAlignment = .any) -> [ARRaycastResult] {
+        guard let query = raycastQuery(from: pos, allowing: .estimatedPlane, alignment: alignment) else {
+            return []
+        }
+        return session.raycast(query)
+    }
 }

@@ -11,6 +11,11 @@ import Foundation
 public class LifeNodePool {
     private init(){
     }
+
+    public static func start(){
+        _  = getLife()
+    }
+
     private static let lockQueue = DispatchQueue.init(label: "lifeNodePool")
 
     private static var lifePool: Pool<MyNode> = {

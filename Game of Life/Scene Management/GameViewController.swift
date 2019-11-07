@@ -61,6 +61,7 @@ class GameViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        LifeNodePool.start()
         sceneView.runConfig()
     }
 
@@ -78,7 +79,6 @@ class GameViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate
     }()
 
     override func viewDidLoad() {
-        makeGlider()
         sceneView.controller = self
         super.viewDidLoad()
         makeLights()
@@ -123,10 +123,31 @@ class GameViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate
         }
     }
 
+    lazy var ghostNode: LifeNode = {
+        let node = LifeNode()
+        node.opacity = 0.6
+        node.setColor(.green)
+        node.position = gridController.gridMap.positionFor(coordinate: SCNVector3(0, 0, 0))
+        scene.rootNode.addChildNode(node)
+        return node
+    }()
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
         sessionState = frame.camera.trackingState
         if frame.rawFeaturePoints?.points.count ?? 0 > 50 {
             featurePointsEnough = true
+        }
+        let results = sceneView.castRay(at: sceneView.center)
+        if let rayCastResult = results.first {
+            let pos = SCNVector3(rayCastResult.worldTransform.translation)
+            var coord = gridController.gridMap.coordinateFor(position: pos)
+            coord.y = -10
+            if gridController.gridMap.checkOccupied(coord) {
+                ghostNode.setColor(.red)
+            } else {
+                ghostNode.setColor(.green)
+            }
+            let gridPos = gridController.gridMap.positionFor(coordinate: coord)
+            ghostNode.position = gridPos
         }
     }
     
@@ -141,11 +162,18 @@ class GameViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate
     }
     
     @IBAction func btnPlaceTap(_ sender: UIButton) {
-        
+        if ghostNode.getColor() == .green {
+            gridController.addAt(LifeNodePool.getLife(), position: ghostNode.position)
+        }
     }
 
     @IBAction func onOffChanged(_ sender: UISwitch) {
         loopEnabled = sender.isOn
+        if loopEnabled {
+            ghostNode.removeFromParentNode()
+        } else {
+            scene.rootNode.addChildNode(ghostNode)
+        }
     }
     
     override var shouldAutorotate: Bool {

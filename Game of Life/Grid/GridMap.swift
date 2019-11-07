@@ -18,11 +18,9 @@ public class GridMap {
     }
 
     func changeOrigin(to pos: SCNVector3) {
-        print("origin:\(origin) newOrigin:\(pos)")
         for node in occupieds {
             let atualPosition = node.value.position
             let newPosition = atualPosition - origin + pos
-            print("atual:\(atualPosition), new:\(newPosition)")
             node.value.position = newPosition
         }
         origin = pos
@@ -36,6 +34,15 @@ public class GridMap {
         let staticPos = position - origin
 
         return SCNVector3(floor(staticPos.x / tileDimension.x), floor(staticPos.y / tileDimension.y), floor(staticPos.z / tileDimension.z))
+    }
+
+    func positionFor(position: SCNVector3) -> SCNVector3 {
+        var newPos = position - origin
+        
+        newPos.x -= newPos.x.truncatingRemainder(dividingBy: tileDimension.x)
+        newPos.y -= newPos.y.truncatingRemainder(dividingBy: tileDimension.y)
+        newPos.z -= newPos.z.truncatingRemainder(dividingBy: tileDimension.z)
+        return newPos
     }
 
     func register(_ object: MyNode, coordinate: SCNVector3) {

@@ -10,8 +10,17 @@ import SceneKit
 import ARKit
 
 extension float4x4 {
-    var translation: SCNVector3 {
-        let translation = self.columns.3
-        return SCNVector3(translation.x, translation.y, translation.z)
+    var translation: SIMD3<Float> {
+        get {
+            let translation = columns.3
+            return [translation.x, translation.y, translation.z]
+        }
+        set(newValue) {
+            columns.3 = [newValue.x, newValue.y, newValue.z, columns.3.w]
+        }
+    }
+
+    var orientation: simd_quatf {
+        return simd_quaternion(self)
     }
 }

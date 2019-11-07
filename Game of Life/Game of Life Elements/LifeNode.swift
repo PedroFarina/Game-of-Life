@@ -27,6 +27,10 @@ public class LifeNode: MyNode, GridListener {
         self.init()
     }
 
+    public func getColor() -> UIColor? {
+        return geometry?.firstMaterial?.diffuse.contents as? UIColor
+    }
+
     public func setColor(_ color: UIColor) {
         geometry?.firstMaterial?.diffuse.contents = color
     }
